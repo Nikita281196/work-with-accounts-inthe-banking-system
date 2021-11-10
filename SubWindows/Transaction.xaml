@@ -1,0 +1,47 @@
+﻿<Window x:Class="WorkWithAccountsInTheBankingSystem.Transaction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkWithAccountsInTheBankingSystem"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Перевод между клиентами" Height="256.102" Width="431.215" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0"  Margin="5"  Text="ID клиента, от кого"  VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="5"  Text="ID клиента, кому" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="0"  Margin="5"  Text="Номер счета, от кого"  VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Margin="5"  Text="Номер счета, кому" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Margin="5"  Text="Сумма" VerticalAlignment="Center"/>
+            <TextBox x:Name="IDFrom"  Grid.Row="0" Grid.Column="1" Margin="5"  />
+            <TextBox x:Name="IDWhere" Grid.Row="1" Grid.Column="1" Margin="5"  />
+            <TextBox x:Name="AccountFrom"  Grid.Row="2" Grid.Column="1" Margin="5"  />
+            <TextBox x:Name="AccountWhere" Grid.Row="3" Grid.Column="1" Margin="5"  />
+            <TextBox x:Name="Sum" Grid.Row="4" Grid.Column="1" Margin="5"  />
+        </Grid>
+        <Button Grid.Row="1" Margin="2" Content="Перевести" Height="Auto" Click="TransactionClick"/>
+    </Grid>
+</Window>
