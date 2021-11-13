@@ -29,34 +29,42 @@ namespace WorkWithAccountsInTheBankingSystem
         private void RefillClick(object sender, RoutedEventArgs e)
         {
             long tempAccountNumber = Convert.ToInt64(AccountNumber.Text);
-            bool temp = false;
+            //bool temp = false;
             int tmp = 0;
-            string tmpType = "";
-            for (int i = 0; i < Client.Accounts.Count; i++)
+            //string tmpType = "";
+            for (int i = 0; i < DBClients.clients.Count; i++)
             {
-                if (tempAccountNumber.Equals(Client.Accounts[i].AccountNumber))
+                if (DBClients.clients[i].Equals(Client))
                 {
-                    temp = true;
-                    tmp = Client.Accounts[i].Balance;
-                    for (int j = 0; j <Client.Deposits.Count ; j++)
+                    for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
                     {
-                        if (Client.Accounts[i].AccountNumber.Equals(Client.Deposits[j].AccountNumber))
+                        if (tempAccountNumber.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
                         {
-                            tmpType = "д";
+                            //temp = true;
+                            tmp = DBClients.clients[i].Accounts[j].Balance;
+                            for (int k = 0; k < DBClients.clients[i].Deposits.Count; k++)
+                            {
+                                if (DBClients.clients[i].Accounts[j].AccountNumber.Equals(DBClients.clients[i].Deposits[k].AccountNumber))
+                                {
+                                    //tmpType = "д";
+                                    DBClients.clients[i].Refill(Convert.ToInt64(tempAccountNumber), tmp, Convert.ToInt32(Sum.Text), "д");
+                                }
+                                else DBClients.clients[i].Refill(Convert.ToInt64(tempAccountNumber), tmp, Convert.ToInt32(Sum.Text), "нд");
+                            }
+
                         }
-                        else tmpType = "нд";
+                        //else temp = false;
                     }
-                    
                 }
-                else temp = false;
             }
-            if (temp)
-            {
+            
+            //if (temp)
+            //{
                 
-                Client.Refill(Convert.ToInt64(tempAccountNumber),tmp,Convert.ToInt32(Sum.Text),tmpType);
-                this.Close();
-            }
-            else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
+            //    Client.Refill(Convert.ToInt64(tempAccountNumber),tmp,Convert.ToInt32(Sum.Text),tmpType);
+            //    this.Close();
+            //}
+            //else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
         }
     }
 }

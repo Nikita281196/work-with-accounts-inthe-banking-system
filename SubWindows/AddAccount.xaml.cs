@@ -31,13 +31,28 @@ namespace WorkWithAccountsInTheBankingSystem
         {
             if (Debet.IsChecked==true)
             {
-                Client.OpenAccount(Convert.ToInt64(AccountNumber.Text), Convert.ToInt32(Balance.Text), "д");
-                this.Close();
+                for (int i = 0; i < DBClients.clients.Count; i++)
+                {
+                    if (Client.Equals(DBClients.clients[i]))
+                    {
+                        DBClients.clients[i].OpenAccount(Convert.ToInt64(AccountNumber.Text), Convert.ToInt32(Balance.Text), "д");
+                        this.Close();
+                    }
+                }
+                
+                //Client.OpenAccount(Convert.ToInt64(AccountNumber.Text), Convert.ToInt32(Balance.Text), "д");
+                
             }
             else if (Notdebet.IsChecked==true)
             {
-                Client.OpenAccount(Convert.ToInt64(AccountNumber.Text), Convert.ToInt32(Balance.Text), "нд");
-                this.Close();
+                for (int i = 0; i < DBClients.clients.Count; i++)
+                {
+                    if (Client.Equals(DBClients.clients[i]))
+                    {
+                        DBClients.clients[i].OpenAccount(Convert.ToInt64(AccountNumber.Text), Convert.ToInt32(Balance.Text), "нд");
+                        this.Close();
+                    }
+                }               
             }
             else
             {

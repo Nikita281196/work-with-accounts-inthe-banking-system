@@ -29,21 +29,28 @@ namespace WorkWithAccountsInTheBankingSystem
         private void CloseAccountClick(object sender, RoutedEventArgs e)
         {
             long tempAccountNumber = Convert.ToInt64(AccountNumber.Text);
-            bool temp = false;
-            for (int i = 0; i < Client.Accounts.Count; i++)
+            //bool temp = false;
+            for (int i = 0; i < DBClients.clients.Count; i++)
             {
-                if (tempAccountNumber.Equals(Client.Accounts[i].AccountNumber))
+                if (DBClients.clients[i].Equals(Client))
                 {
-                    temp = true;
+                    for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
+                    {
+                        if (tempAccountNumber.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
+                        {
+                            DBClients.clients[i].CloseAccount(Convert.ToInt64(tempAccountNumber));
+                            
+                        }                       
+                    }
                 }
-                else temp = false;               
             }
-            if (temp)
-            {
-                Client.CloseAccount(Convert.ToInt64(tempAccountNumber));
-                this.Close();
-            }
-            else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
+            
+            //if (temp)
+            //{
+            //    Client.CloseAccount(Convert.ToInt64(tempAccountNumber));
+            //    this.Close();
+            //}
+            //else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
 
         }
     }

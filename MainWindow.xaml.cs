@@ -19,14 +19,15 @@ namespace WorkWithAccountsInTheBankingSystem
 
     static class DBClients
     {
-        public static ObservableCollection<Client<long, int>> clients = new ObservableCollection<Client<long, int>>();
+        public static ObservableCollection<Client<long, int>> clients; 
     }
     public partial class MainWindow : Window
     {              
         public MainWindow()
         {
             
-            InitializeComponent();                    
+            InitializeComponent();
+            DBClients.clients = new ObservableCollection<Client<long, int>>();
         }
         
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -49,14 +50,8 @@ namespace WorkWithAccountsInTheBankingSystem
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
-                for (int i = 0; i < DBClients.clients.Count; i++)
-                {
-                    if (SelectedClient.Id.Equals(DBClients.clients[i].Id))
-                    {
-                        addAccount.Show();
-                        addAccount.Client = DBClients.clients[i];
-                    }
-                }               
+                addAccount.Show();
+                addAccount.Client = SelectedClient;                             
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
             
@@ -90,14 +85,8 @@ namespace WorkWithAccountsInTheBankingSystem
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
-                for (int i = 0; i < DBClients.clients.Count; i++)
-                {
-                    if (SelectedClient.Id.Equals(DBClients.clients[i].Id))
-                    {
-                        closeAccount.Show();
-                        closeAccount.Client = DBClients.clients[i];
-                    }
-                }               
+                closeAccount.Show();
+                closeAccount.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);            
         }
@@ -129,15 +118,8 @@ namespace WorkWithAccountsInTheBankingSystem
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
-                for (int i = 0; i < DBClients.clients.Count; i++)
-                {
-                    if (SelectedClient.Id.Equals(DBClients.clients[i].Id))
-                    {
-                        refill.Show();
-
-                        refill.Client = DBClients.clients[i];
-                    }
-                }
+                refill.Show();
+                refill.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
         }
