@@ -43,6 +43,9 @@
                     <MenuItem Header="Закрыть счет" 
                               Icon="{materialDesign:PackIcon Kind=Close}" Click="CloseAccount_Click">
                     </MenuItem>
+                    <MenuItem Header="Показать журнал действий" 
+                              Icon="{materialDesign:PackIcon Kind=ShowChart}" Click="ShowMagazine_Click">
+                    </MenuItem>
                     <Separator/>
                     <MenuItem Header="Выход" 
                               Icon="{materialDesign:PackIcon Kind=ExitToApp}" 

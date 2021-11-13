@@ -19,6 +19,7 @@ namespace WorkWithAccountsInTheBankingSystem
     {
         void Transaction(T accountFromWere, T accountWhere, TAccountNumber numberFromWhere, TAccountNumber numberWhere, TBalance sum);
     }
+
     /// <summary>
     /// Класс реализующий интерфейс контрвариантности
     /// </summary>
@@ -83,8 +84,13 @@ namespace WorkWithAccountsInTheBankingSystem
         }
     }
 
+     
+
     public class Client<TAccount, TBalance>
     {
+        
+        static public event Action<string> InformationEvent;       
+        
         public int Id { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
@@ -127,6 +133,7 @@ namespace WorkWithAccountsInTheBankingSystem
             this.Accounts = new ObservableCollection<Account<TAccount, TBalance>>();
             this.Deposits = new ObservableCollection<Deposit<TAccount, TBalance>>();
             this.NotDeposits = new ObservableCollection<NotDeposit<TAccount, TBalance>>();
+            InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} создан");
         }
         /// <summary>
         /// Метод открытия счета
@@ -147,7 +154,7 @@ namespace WorkWithAccountsInTheBankingSystem
                     bankDeposit = new Bank<Deposit<TAccount, TBalance>, TAccount, TBalance>();
                     Deposit<TAccount, TBalance> bankdepositAccount = bankDeposit.Create(number, balance);
                     Deposits.Add(bankdepositAccount);
-
+                    InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} открыл депозитный счет: {number}, баланс {balance}");
                     break;
                 case "нд":
 
@@ -158,6 +165,8 @@ namespace WorkWithAccountsInTheBankingSystem
                     bankNotDeposit = new Bank<NotDeposit<TAccount, TBalance>, TAccount, TBalance>();
                     NotDeposit<TAccount, TBalance> banknotdepositAccount = bankNotDeposit.Create(number, balance);
                     NotDeposits.Add(banknotdepositAccount);
+                    
+                    InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} открыл недепозитный счет: {number}, баланс {balance}");
                     break;
             }
         }
@@ -190,6 +199,7 @@ namespace WorkWithAccountsInTheBankingSystem
                             bankDeposit = new Bank<Deposit<TAccount, TBalance>, TAccount, TBalance>();
                             Deposit<TAccount, TBalance> DepositAccount = bankDeposit.Refill(Number, balance, Sum);
                             Deposits[i] = DepositAccount;
+                            InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} пополнил депозитный счет: {Number}, на сумму {Sum}");
                         }
                     }
                     break;
@@ -210,6 +220,7 @@ namespace WorkWithAccountsInTheBankingSystem
                             bankNotDeposit = new Bank<NotDeposit<TAccount, TBalance>, TAccount, TBalance>();
                             NotDeposit<TAccount, TBalance> DepositAccount = bankNotDeposit.Refill(Number, balance, Sum);
                             NotDeposits[i] = DepositAccount;
+                            InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} пополнил недепозитный счет: {Number}, на сумму {Sum}");
                         }
                     }
                     break;
@@ -243,6 +254,7 @@ namespace WorkWithAccountsInTheBankingSystem
                     NotDeposits.RemoveAt(i);
                 }
             }
+            InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} закрыл счет {Number}");
         }
 
         /// <summary>
@@ -292,17 +304,12 @@ namespace WorkWithAccountsInTheBankingSystem
                     NotDeposits[i].Balance = (TBalance)Convert.ChangeType(balanceAccountFromWhere, typeof(TBalance));
                 }
             }
+            InformationEvent?.Invoke($"Клиент {this.Surname} {this.Name} {this.Patronimyc} " +
+                $"перевел со счета: {AccountFromWhere}, на счет {AccountWhere}, сумму {Sum}");
         }
 
 
-        public void Print()
-        {
-
-            for (int i = 0; i < Accounts.Count; i++)
-            {
-                Console.WriteLine($"{Id} {Surname } {Name} {Patronimyc} {Accounts[i].AccountNumber} {Accounts[i].Balance}");
-            }
-        }
+        
 
     }
 }

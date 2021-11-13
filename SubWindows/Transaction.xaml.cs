@@ -83,13 +83,17 @@ namespace WorkWithAccountsInTheBankingSystem
             }
             else MessageBox.Show("ID 'от кого' неверный", "Внимание", MessageBoxButton.OK);
         }
+        static public event Action<string> TransactionBetweenClientEvent;
         static public void TransactionBetweenClient(Client<long, int> accountFromWere, Client<long, int> accountWere, long numberFromWhere, long numberWhere, int sum)
         {
-
+            
             IAccountTransaction<Client<long, int>, long, int> accountTransaction =
                             new Transactions<Client<long, int>, long, int>();
 
             accountTransaction.Transaction(accountFromWere, accountWere, numberFromWhere, numberWhere, sum);
+            TransactionBetweenClientEvent?.Invoke($"Клиент: {accountFromWere.Surname} {accountFromWere.Surname} {accountFromWere.Patronimyc} " +
+                $"перевел со счета: {numberFromWhere} сумму: {sum}. Клиент: {accountWere.Surname} {accountWere.Surname} {accountWere.Patronimyc} " +
+                $"получил на счет: {numberWhere} сумму: {sum}"); 
         }
     }
 }

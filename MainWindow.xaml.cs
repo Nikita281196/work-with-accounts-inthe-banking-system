@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +20,18 @@ namespace WorkWithAccountsInTheBankingSystem
 
     static class DBClients
     {
-        public static ObservableCollection<Client<long, int>> clients; 
+        public static ObservableCollection<Client<long, int>> clients;
+        public static Dictionary<DateTime,string> MagazineEvent;
     }
     public partial class MainWindow : Window
-    {              
+    {
+        
         public MainWindow()
         {
             
             InitializeComponent();
             DBClients.clients = new ObservableCollection<Client<long, int>>();
+            DBClients.MagazineEvent = new Dictionary<DateTime, string>();
         }
         
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -41,6 +45,18 @@ namespace WorkWithAccountsInTheBankingSystem
             addClient.Owner = this;
             addClient.Show();
             dbClient.ItemsSource = DBClients.clients;
+            Client<long, int>.InformationEvent += AddInMagazin;
+        }
+
+        public void AddInMagazin(string Arg)
+        {
+            DBClients.MagazineEvent.Add(DateTime.Now,Arg);
+            MessageBox.Show(Arg);
+            foreach (var item in DBClients.MagazineEvent)
+            {
+                Debug.WriteLine(item);
+            }
+            
         }
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
@@ -54,7 +70,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 addAccount.Client = SelectedClient;                             
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
-            
+            Client<long, int>.InformationEvent += AddInMagazin;
         }
 
         private void ShowAccount_Click(object sender, RoutedEventArgs e)
@@ -74,7 +90,7 @@ namespace WorkWithAccountsInTheBankingSystem
                     }
                 }               
             }
-            else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);                                 
+            else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);            
         }
 
         private void CloseAccount_Click(object sender, RoutedEventArgs e)
@@ -88,7 +104,8 @@ namespace WorkWithAccountsInTheBankingSystem
                 closeAccount.Show();
                 closeAccount.Client = SelectedClient;
             }
-            else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);            
+            else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent += AddInMagazin;
         }
 
         private void TransactionBetweenYourAccount_Click(object sender, RoutedEventArgs e)
@@ -109,6 +126,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 }
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent += AddInMagazin;
         }
 
         private void Refill_Click(object sender, RoutedEventArgs e)
@@ -122,6 +140,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 refill.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent += AddInMagazin;
         }
 
         private void Transaction_Click(object sender, RoutedEventArgs e)
@@ -130,6 +149,13 @@ namespace WorkWithAccountsInTheBankingSystem
             transaction.Owner = this;
             transaction.Show();
         }
-        
+
+        private void ShowMagazine_Click(object sender, RoutedEventArgs e)
+        {
+            Magazine magazine = new Magazine();
+            magazine.Owner = this;
+            magazine.dbEvent.ItemsSource = DBClients.MagazineEvent;           
+            magazine.Show();
+        }
     }
 }

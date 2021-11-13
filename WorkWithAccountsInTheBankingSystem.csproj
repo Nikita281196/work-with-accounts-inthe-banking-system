@@ -67,6 +67,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AccountInformation.cs" />
+    <Compile Include="SubWindows\Magazine.xaml.cs">
+      <DependentUpon>Magazine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubWindows\CloseAccount.xaml.cs">
       <DependentUpon>CloseAccount.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
     <Compile Include="SubWindows\TransactionBetweenYourAccount.xaml.cs">
       <DependentUpon>TransactionBetweenYourAccount.xaml</DependentUpon>
     </Compile>
+    <Page Include="SubWindows\Magazine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubWindows\AddAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
