@@ -21,38 +21,39 @@ namespace WorkWithAccountsInTheBankingSystem
     static class DBClients
     {
         public static ObservableCollection<Client<long, int>> clients;
-        public static Dictionary<DateTime,string> MagazineEvent;
+        public static ObservableCollection<MagazineEvent> MagazineEvents;
     }
     public partial class MainWindow : Window
     {
         
         public MainWindow()
-        {
-            
+        {            
             InitializeComponent();
             DBClients.clients = new ObservableCollection<Client<long, int>>();
-            DBClients.MagazineEvent = new Dictionary<DateTime, string>();
+            DBClients.MagazineEvents = new ObservableCollection<MagazineEvent>();
         }
         
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();           
         }
-
+        int count = 0;
         private void AddClient_Click(object sender, RoutedEventArgs e)
         {           
             AddClient addClient = new AddClient();                      
             addClient.Owner = this;
             addClient.Show();
             dbClient.ItemsSource = DBClients.clients;
-            Client<long, int>.InformationEvent += AddInMagazin;
+            Client<long, int>.InformationEvent -= AddInMagazin;
+            Client<long, int>.InformationEvent += AddInMagazin;                      
         }
-
-        public void AddInMagazin(string Arg)
+        private void AddInMagazin(string Arg)
         {
-            DBClients.MagazineEvent.Add(DateTime.Now,Arg);
+            count++;
+            Debug.WriteLine(count);
+            DBClients.MagazineEvents.Add(new MagazineEvent(DateTime.Now,Arg));
             MessageBox.Show(Arg);
-            foreach (var item in DBClients.MagazineEvent)
+            foreach (var item in DBClients.MagazineEvents)
             {
                 Debug.WriteLine(item);
             }
@@ -70,6 +71,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 addAccount.Client = SelectedClient;                             
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent -= AddInMagazin;
             Client<long, int>.InformationEvent += AddInMagazin;
         }
 
@@ -105,6 +107,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 closeAccount.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent -= AddInMagazin;
             Client<long, int>.InformationEvent += AddInMagazin;
         }
 
@@ -126,6 +129,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 }
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent -= AddInMagazin;
             Client<long, int>.InformationEvent += AddInMagazin;
         }
 
@@ -140,6 +144,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 refill.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
+            Client<long, int>.InformationEvent -= AddInMagazin;
             Client<long, int>.InformationEvent += AddInMagazin;
         }
 
@@ -154,7 +159,7 @@ namespace WorkWithAccountsInTheBankingSystem
         {
             Magazine magazine = new Magazine();
             magazine.Owner = this;
-            magazine.dbEvent.ItemsSource = DBClients.MagazineEvent;           
+            magazine.dbEvent.ItemsSource = DBClients.MagazineEvents;           
             magazine.Show();
         }
     }
