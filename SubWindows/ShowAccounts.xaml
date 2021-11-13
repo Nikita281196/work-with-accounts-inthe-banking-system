@@ -1,0 +1,44 @@
+﻿<Window x:Class="WorkWithAccountsInTheBankingSystem.ShowAccounts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkWithAccountsInTheBankingSystem"
+        mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="ShowAccounts" Height="484.903" Width="300" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <ListView x:Name="dbAccount"  Grid.Row="0" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding AccountNumber}"
+                        Header="Номер счета" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Balance}"
+                        Header="Баланс" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="1" Grid.Column="0"  Content="Дебетовые" Margin="2" Click="ShowDepositAccount_Click" />
+            <Button Grid.Row="1" Grid.Column="1"  Content="Недебетовые"  Margin="2" Click="ShowNotDepositAccount_Click"/>
+        </Grid>
+    </Grid>
+</Window>
