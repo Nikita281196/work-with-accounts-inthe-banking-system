@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BankSystem;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WorkWithAccountsInTheBankingSystem
 {
@@ -28,30 +18,38 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void CloseAccountClick(object sender, RoutedEventArgs e)
         {
-            long tempAccountNumber = Convert.ToInt64(AccountNumber.Text);
-            //bool temp = false;
-            for (int i = 0; i < DBClients.clients.Count; i++)
+            try
             {
-                if (DBClients.clients[i].Equals(Client))
+                if (IsNumberContains(AccountNumber.Text))
                 {
-                    for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
+                    throw new SymbolException("Номер счета не может содержать буквы");
+                }
+                for (int i = 0; i < DBClients.clients.Count; i++)
+                {
+                    if (DBClients.clients[i].Equals(Client))
                     {
-                        if (tempAccountNumber.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
+                        for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
                         {
-                            DBClients.clients[i].CloseAccount(Convert.ToInt64(tempAccountNumber));
-                            
-                        }                       
+                            if (AccountNumber.Text.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
+                            {
+                                DBClients.clients[i].CloseAccount(Convert.ToInt64(AccountNumber.Text));
+                            }
+                        }
                     }
                 }
             }
+            catch (SymbolException error)
+            {
+                MessageBox.Show(error.Message);
+            }
             
-            //if (temp)
-            //{
-            //    Client.CloseAccount(Convert.ToInt64(tempAccountNumber));
-            //    this.Close();
-            //}
-            //else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
-
+        }
+        static bool IsNumberContains(string input)
+        {
+            foreach (char c in input)
+                if (Char.IsLetter(c))
+                    return true;
+            return false;
         }
     }
 }

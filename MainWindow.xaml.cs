@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BankSystem;
 
 namespace WorkWithAccountsInTheBankingSystem
 {
@@ -21,6 +22,7 @@ namespace WorkWithAccountsInTheBankingSystem
     static class DBClients
     {
         public static ObservableCollection<Client<long, int>> clients;
+        
         public static ObservableCollection<MagazineEvent> MagazineEvents;
     }
     public partial class MainWindow : Window
@@ -38,32 +40,34 @@ namespace WorkWithAccountsInTheBankingSystem
         {
             Application.Current.Shutdown();           
         }
-        int count = 0;
+        
         private void AddClient_Click(object sender, RoutedEventArgs e)
-        {           
-            AddClient addClient = new AddClient();                      
-            addClient.Owner = this;
+        {
+            AddClient addClient = new AddClient
+            {
+                Owner = this
+            };
             addClient.Show();
             dbClient.ItemsSource = DBClients.clients;
                                 
         }
         private void AddInMagazin(string Arg)
-        {
-            count++;
-            Debug.WriteLine(count);
+        {           
+            
             DBClients.MagazineEvents.Add(new MagazineEvent(DateTime.Now,Arg));
             MessageBox.Show(Arg);
             foreach (var item in DBClients.MagazineEvents)
             {
                 Debug.WriteLine(item);
-            }
-            
+            }            
         }
 
         private void AddAccount_Click(object sender, RoutedEventArgs e)
         {
-            AddAccount addAccount = new AddAccount();
-            addAccount.Owner = this;          
+            AddAccount addAccount = new AddAccount
+            {
+                Owner = this
+            };
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
@@ -76,8 +80,10 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void ShowAccount_Click(object sender, RoutedEventArgs e)
         {
-            ShowAccounts showAccount = new ShowAccounts();
-            showAccount.Owner = this;
+            ShowAccounts showAccount = new ShowAccounts
+            {
+                Owner = this
+            };
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
@@ -96,9 +102,11 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void CloseAccount_Click(object sender, RoutedEventArgs e)
         {
-            CloseAccount closeAccount = new CloseAccount();
-            closeAccount.Owner = this;
-            
+            CloseAccount closeAccount = new CloseAccount
+            {
+                Owner = this
+            };
+
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
@@ -111,8 +119,10 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void TransactionBetweenYourAccount_Click(object sender, RoutedEventArgs e)
         {
-            TransactionBetweenYourAccount transactionBetweenYourAccount = new TransactionBetweenYourAccount();
-            transactionBetweenYourAccount.Owner = this;
+            TransactionBetweenYourAccount transactionBetweenYourAccount = new TransactionBetweenYourAccount
+            {
+                Owner = this
+            };
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
@@ -132,8 +142,10 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void Refill_Click(object sender, RoutedEventArgs e)
         {
-            Refill refill = new Refill();
-            refill.Owner = this;
+            Refill refill = new Refill
+            {
+                Owner = this
+            };
             var SelectedClient = (Client<long, int>)Convert.ChangeType(dbClient.SelectedItem, typeof(Client<long, int>));
             if (SelectedClient != null)
             {
@@ -146,15 +158,19 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void Transaction_Click(object sender, RoutedEventArgs e)
         {
-            Transaction transaction = new Transaction();
-            transaction.Owner = this;
+            Transaction transaction = new Transaction
+            {
+                Owner = this
+            };
             transaction.Show();
         }
 
         private void ShowMagazine_Click(object sender, RoutedEventArgs e)
         {
-            Magazine magazine = new Magazine();
-            magazine.Owner = this;
+            Magazine magazine = new Magazine
+            {
+                Owner = this
+            };
             magazine.dbEvent.ItemsSource = DBClients.MagazineEvents;           
             magazine.Show();
         }

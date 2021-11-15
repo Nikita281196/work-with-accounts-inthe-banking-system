@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,43 +29,48 @@ namespace WorkWithAccountsInTheBankingSystem
 
         private void RefillClick(object sender, RoutedEventArgs e)
         {
-            long tempAccountNumber = Convert.ToInt64(AccountNumber.Text);
-            //bool temp = false;
-            int tmp = 0;
-            //string tmpType = "";
-            for (int i = 0; i < DBClients.clients.Count; i++)
+            try
             {
-                if (DBClients.clients[i].Equals(Client))
+                if (IsNumberContains(AccountNumber.Text))
                 {
-                    for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
+                    throw new SymbolException("Номер счета не может содержать буквы");
+                }
+                int tmp = 0;
+                for (int i = 0; i < DBClients.clients.Count; i++)
+                {
+                    if (DBClients.clients[i].Equals(Client))
                     {
-                        if (tempAccountNumber.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
+                        for (int j = 0; j < DBClients.clients[i].Accounts.Count; j++)
                         {
-                            //temp = true;
-                            tmp = DBClients.clients[i].Accounts[j].Balance;
-                            for (int k = 0; k < DBClients.clients[i].Deposits.Count; k++)
+                            if (AccountNumber.Text.Equals(DBClients.clients[i].Accounts[j].AccountNumber))
                             {
-                                if (DBClients.clients[i].Accounts[j].AccountNumber.Equals(DBClients.clients[i].Deposits[k].AccountNumber))
+                                tmp = DBClients.clients[i].Accounts[j].Balance;
+                                for (int k = 0; k < DBClients.clients[i].Deposits.Count; k++)
                                 {
-                                    //tmpType = "д";
-                                    DBClients.clients[i].Refill(Convert.ToInt64(tempAccountNumber), tmp, Convert.ToInt32(Sum.Text), "д");
+                                    if (DBClients.clients[i].Accounts[j].AccountNumber.Equals(DBClients.clients[i].Deposits[k].AccountNumber))
+                                    {
+                                        DBClients.clients[i].Refill(Convert.ToInt64(AccountNumber.Text), tmp, Convert.ToInt32(Sum.Text), "д");
+                                    }
+                                    else DBClients.clients[i].Refill(Convert.ToInt64(AccountNumber.Text), tmp, Convert.ToInt32(Sum.Text), "нд");
                                 }
-                                else DBClients.clients[i].Refill(Convert.ToInt64(tempAccountNumber), tmp, Convert.ToInt32(Sum.Text), "нд");
+
                             }
 
                         }
-                        //else temp = false;
                     }
                 }
             }
-            
-            //if (temp)
-            //{
-                
-            //    Client.Refill(Convert.ToInt64(tempAccountNumber),tmp,Convert.ToInt32(Sum.Text),tmpType);
-            //    this.Close();
-            //}
-            //else MessageBox.Show("Такого номера счета не существует", "Внимание", MessageBoxButton.OK);
+            catch (SymbolException error)
+            {
+                MessageBox.Show(error.Message);
+            }                                            
+        }
+        static bool IsNumberContains(string input)
+        {
+            foreach (char c in input)
+                if (Char.IsLetter(c))
+                    return true;
+            return false;
         }
     }
 }
