@@ -31,6 +31,7 @@ namespace WorkWithAccountsInTheBankingSystem
             InitializeComponent();
             DBClients.clients = new ObservableCollection<Client<long, int>>();
             DBClients.MagazineEvents = new ObservableCollection<MagazineEvent>();
+            Client<long, int>.InformationEvent += AddInMagazin;
         }
         
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -44,8 +45,7 @@ namespace WorkWithAccountsInTheBankingSystem
             addClient.Owner = this;
             addClient.Show();
             dbClient.ItemsSource = DBClients.clients;
-            Client<long, int>.InformationEvent -= AddInMagazin;
-            Client<long, int>.InformationEvent += AddInMagazin;                      
+                                
         }
         private void AddInMagazin(string Arg)
         {
@@ -71,8 +71,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 addAccount.Client = SelectedClient;                             
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
-            Client<long, int>.InformationEvent -= AddInMagazin;
-            Client<long, int>.InformationEvent += AddInMagazin;
+            
         }
 
         private void ShowAccount_Click(object sender, RoutedEventArgs e)
@@ -107,8 +106,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 closeAccount.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
-            Client<long, int>.InformationEvent -= AddInMagazin;
-            Client<long, int>.InformationEvent += AddInMagazin;
+            
         }
 
         private void TransactionBetweenYourAccount_Click(object sender, RoutedEventArgs e)
@@ -129,8 +127,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 }
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
-            Client<long, int>.InformationEvent -= AddInMagazin;
-            Client<long, int>.InformationEvent += AddInMagazin;
+            
         }
 
         private void Refill_Click(object sender, RoutedEventArgs e)
@@ -144,8 +141,7 @@ namespace WorkWithAccountsInTheBankingSystem
                 refill.Client = SelectedClient;
             }
             else MessageBox.Show("Выберите клиента", "Внимание", MessageBoxButton.OK);
-            Client<long, int>.InformationEvent -= AddInMagazin;
-            Client<long, int>.InformationEvent += AddInMagazin;
+            
         }
 
         private void Transaction_Click(object sender, RoutedEventArgs e)
